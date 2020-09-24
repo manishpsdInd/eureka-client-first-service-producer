@@ -1,0 +1,40 @@
+spring.profiles.active: dev
+#server.port: ${read.from.properties.file}
+
+spring:
+  application:
+    name: eureka-client-first-service
+  security:
+    user:
+      name: admin 
+      password: admin
+      
+eureka:
+  server:
+    port: 9090 
+    host: localhost
+
+--- 
+
+spring:
+  profiles: dev
+
+logging.config: classpath:logback.xml
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.server.host}:${eureka.server.port}/eureka/
+    eureka-server-port: 9090
+  instance:
+    hostname: localhost
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 1
+---
+
+spring:
+  profiles: uat
+
+logging.config: classpath:logback.xml
